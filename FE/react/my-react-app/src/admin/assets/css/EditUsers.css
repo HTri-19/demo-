@@ -1,0 +1,48 @@
+/* FORM BOX – canh giữa màn hình */
+.form-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 550px;
+
+  /* Canh giữa */
+  margin: 40px auto; 
+}
+
+/* FORM GROUP */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 12px;
+  border: 1px solid #dce3f1;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fafbfd;
+}
+
+/* ACTION BUTTONS — nằm bên phải */
+.form-actions {
+  display: flex;
+  justify-content: flex-end !important;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+/* Buttons */
+.btn.cancel {
+  background: #2563eb;
+  color: #fff;
+}
+

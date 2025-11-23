@@ -12,8 +12,24 @@ import Productdetail from "./component/Productdetail";
 import Category from "./component/Category";
 import News from "./component/News";
 import NewsDetail from "./component/NewsDetail";
-import ForgotPassword from './component/ForgotPassword'; // Import component mới
-import ResetPassword from './component/ResetPassword';  // Sửa path này
+import ForgotPassword from "./component/ForgotPassword"; // Import component mới
+import ResetPassword from "./component/ResetPassword"; // Sửa path này
+import Addproduct from "./admin/pages/Addproduct";
+import Addorder from "./admin/pages/Addorder";
+import Adduser from "./admin/pages/Adduser";
+import Addpost from "./admin/pages/Addpost";
+import Adminlayout from "./admin/pages/Adminlayout";
+import Dashboard from "./admin/pages/Dashboard";
+import Productmanager from "./admin/pages/Productmanager";
+import Ordermanager from "./admin/pages/Ordermanager";
+import Usermanager from "./admin/pages/Usermanager";
+import Postmanager from "./admin/pages/Postmanager";
+import Reviewmanager from "./admin/pages/Reviewmanager";
+import Profile from "./admin/pages/Profile";
+import EditProduct from "./admin/pages/EditProduct";
+import EditOrder from "./admin/pages/EditOrder";
+import EditUser from "./admin/pages/EditUser";
+import EditPost from "./admin/pages/EditPost";
 
 const App = () => {
   return (
@@ -28,9 +44,29 @@ const App = () => {
         <Route path="/category" element={<Category />} />
         <Route path="/news" element={<News />} />
         <Route path="/newsdetail" element={<NewsDetail />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* ROUTE MỚI */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+        {/* ROUTE MỚI */}
         <Route path="/reset-password" element={<ResetPassword />} />
-
+        {/* ADMIN ROUTES (WRAPPED IN ADMINLAYOUT) */}
+        <Route path="/admin" element={<Adminlayout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="productmanager" element={<Productmanager />} />
+          <Route path="ordermanager" element={<Ordermanager />} />
+          <Route path="usermanager" element={<Usermanager />} />
+          <Route path="postmanager" element={<Postmanager />} />
+          <Route path="reviewmanager" element={<Reviewmanager />} />
+          <Route path="profile" element={<Profile />} />
+          {/* phần ADD */}
+          <Route path="addproduct" element={<Addproduct />} />
+          <Route path="addorder" element={<Addorder />} />
+          <Route path="adduser" element={<Adduser />} />
+          <Route path="addpost" element={<Addpost />} />
+          {/* Phần EDIT */}
+          <Route path="editproduct" element={<EditProduct />} />
+          <Route path="editorder" element={<EditOrder />} />
+          <Route path="edituser" element={<EditUser />} />
+          <Route path="editpost" element={<EditPost />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
