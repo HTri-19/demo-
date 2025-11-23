@@ -15,6 +15,7 @@ import NewsDetail from "./component/NewsDetail";
 import ForgotPassword from './component/ForgotPassword'; // Import component mới
 import ResetPassword from './component/ResetPassword';  // Sửa path này
 
+
 const App = () => {
   return (
     <BrowserRouter>

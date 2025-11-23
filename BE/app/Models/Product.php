@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product_images;
+use App\Models\Product_variants;
 class Product extends Model
 {
     use HasFactory;
     protected $table = 'product'; // tên bảng
-    protected $fillable = ['name', 'category_id', 'description', 'status'];
+    protected $fillable = ['name', 'category_id', 'description', 'image', 'status'];
        public function category()
     {
         return $this->belongsTo(Categories::class, 'category_id');
@@ -21,5 +22,9 @@ class Product extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'product_id');
+    }
+     public function variants()
+    {
+        return $this->hasMany(Product_variants::class, 'product_id');
     }
 }

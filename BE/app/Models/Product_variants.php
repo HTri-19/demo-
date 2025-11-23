@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Rams;
+use App\Models\Ram;
 use App\Models\Storage;
 class Product_variants extends Model
 {
@@ -18,10 +18,14 @@ class Product_variants extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+    public function model()
+    {
+        return $this->belongsTo(Models::class, 'model_id', 'id');
+    }
 
     public function ram()
     {
-        return $this->belongsTo(Rams::class, 'ram_id');
+        return $this->belongsTo(Ram::class, 'ram_id');
     }
 
     public function storage()

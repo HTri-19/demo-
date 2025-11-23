@@ -6,33 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id(); // id int(11) primary key
-            $table->string('name', 100);
-            $table->string('email', 100)->unique();
-            $table->string('password', 255);
-            $table->string('phone', 50)->nullable();
-            $table->enum('role', ['user', 'admin'])->default('user');
-            $table->dateTime('register_date')->useCurrent();
-            $table->enum('status', ['active', 'unactive'])->default('active');
-            $table->timestamps(); // tạo created_at và updated_at tự động
+        Schema::create('carts', function (Blueprint $table) {
+            $table->id();
+            $table->string('session_id', 255)->index();
+            $table->unsignedBigInteger('variant_id');
+            $table->integer('quantity')->default(1);
+            $table->timestamps();
+
+            // Unique constraint
+            $table->unique(['session_id', 'variant_id']);
+            
+            // Foreign key (nếu cần - có thể bỏ nếu gây lỗi)
+            // $table->foreign('variant_id')->references('id')->on('product_variants')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('carts');
     }
 };

@@ -30,9 +30,17 @@ use App\Http\Controllers\Api\CartController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::middleware(['api', 'web'])->prefix('product')->group(function () {
+    Route::get('/cart', [CartController::class, 'index']);
+    Route::post('/cart/add', [CartController::class, 'add']);
+    Route::put('/cart/update', [CartController::class, 'update']);
+    Route::delete('/cart/remove/{variantId}', [CartController::class, 'remove']);
+    Route::delete('/cart/clear', [CartController::class, 'clear']);
 });
+
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::get('/{id}', [UserController::class, 'show']);
@@ -140,10 +148,19 @@ Route::prefix('voucher')->group(function(){
     Route::delete('/{id}', [VoucherController::class, 'destroy']);
 });
 
-Route::prefix('cart')->group(function () {
-    Route::get('/', [CartController::class, 'index'])->name('cart.index');
-    Route::post('/add', [CartController::class, 'add'])->name('cart.add');
-    Route::put('/{variantId}', [CartController::class, 'update'])->where('variantId', '[0-9]+')->name('cart.update');
-    Route::delete('/{variantId}', [CartController::class, 'remove'])->where('variantId', '[0-9]+')->name('cart.remove');
-    Route::delete('/', [CartController::class, 'clear'])->name('cart.clear');
+// Route::prefix('cart')->group(function () {
+//     Route::get('/', [CartController::class, 'index'])->name('cart.index');
+//     Route::post('/add', [CartController::class, 'add'])->name('cart.add');
+//     Route::put('/{variantId}', [CartController::class, 'update'])->where('variantId', '[0-9]+')->name('cart.update');
+//     Route::delete('/{variantId}', [CartController::class, 'remove'])->where('variantId', '[0-9]+')->name('cart.remove');
+//     Route::delete('/', [CartController::class, 'clear'])->name('cart.clear');
+// });
+Route::prefix('product')->group(function () {
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index']);
+        Route::post('/add', [CartController::class, 'add']);
+        Route::delete('/clear', [CartController::class, 'clear']);
+        Route::put('/{variantId}', [CartController::class, 'update'])->where('variantId', '[0-9]+');
+        Route::delete('/{variantId}', [CartController::class, 'remove'])->where('variantId', '[0-9]+');
+    });
 });
