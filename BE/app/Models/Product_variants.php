@@ -21,9 +21,9 @@ class Product_variants extends Model
 
     public function ram()
     {
-        return $this->belongsTo(Rams::class, 'ram_id');
+        return $this->belongsTo(Ram::class, 'ram_id');
     }
-
+    
     public function storage()
     {
         return $this->belongsTo(Storage::class, 'storage_id');

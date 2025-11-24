@@ -289,7 +289,7 @@ class AdminProductController extends Controller
 }
     /**
      * Xóa variant
-     */
+     *////
     public function destroyVariant($id, $variantId)
     {
         $product = Product::find($id);
