@@ -32,6 +32,7 @@ import fix from "../assets/images/fix.png";
 import macboo from "../assets/images/macboo-mdm.png";
 import hangapple from "../assets/images/hang-apple-refurbished-la-gi-co-nen-mua-hang-apple-refurbished-khong-1697107354.png";
 import { Link } from "react-router-dom";
+import SearchBox from "./SearchBox";
 
 const Home = () => {
   return (
@@ -55,13 +56,13 @@ const Home = () => {
             </a>
           </nav>
 
-          <div className="search-box">
+          {/* <div className="search-box">
             <input type="text" placeholder="Nhập tên sản phẩm cần tìm..." />
             <button>
               <i className="fa-solid fa-magnifying-glass"></i>
             </button>
-          </div>
-
+          </div> */}
+          <SearchBox />
           <div className="header-actions">
             <Link to="/cart" className="cart-btn">
               <i className="fa-solid fa-cart-shopping"></i> Giỏ hàng
@@ -645,4 +646,3 @@ const Home = () => {
   );
 };
 export default Home;
-

@@ -30,6 +30,7 @@ import EditProduct from "./admin/pages/EditProduct";
 import EditOrder from "./admin/pages/EditOrder";
 import EditUser from "./admin/pages/EditUser";
 import EditPost from "./admin/pages/EditPost";
+import ProductId from "./component/ProductId";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/news" element={<News />} />
         <Route path="/newsdetail" element={<NewsDetail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />{" "}
+        <Route path="/product/:id" element={<ProductId />} />
         {/* ROUTE MỚI */}
         <Route path="/reset-password" element={<ResetPassword />} />
         {/* ADMIN ROUTES (WRAPPED IN ADMINLAYOUT) */}

@@ -101,7 +101,7 @@ body {
   overflow: hidden;
 }
 
-.search-box input {
+/* .search-box input {
   flex: 1;
   border: none;
   padding: 10px 16px;
@@ -116,7 +116,7 @@ body {
   font-size: 18px;
   color: #2b8ce3;
   cursor: pointer;
-}
+} */
 
 .header-actions {
   display: flex;
