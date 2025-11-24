@@ -42,7 +42,7 @@ class AuthController extends Controller
             'token' => $result['token'],
         ], 200);
     }
-
+//
     public function forgotPassword(Request $request)
 {
     $request->validate([
