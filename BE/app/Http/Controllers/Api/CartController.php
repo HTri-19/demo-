@@ -82,7 +82,7 @@ class CartController extends Controller
                 $validated['variant_id'],
                 $validated['quantity']
             );
-
+//
             return response()->json([
                 'success' => true,
                 'message' => 'Sản phẩm đã được thêm vào giỏ hàng',
