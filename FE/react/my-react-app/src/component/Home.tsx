@@ -32,8 +32,57 @@ import fix from "../assets/images/fix.png";
 import macboo from "../assets/images/macboo-mdm.png";
 import hangapple from "../assets/images/hang-apple-refurbished-la-gi-co-nen-mua-hang-apple-refurbished-khong-1697107354.png";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+interface ProductImage {
+  id: number;
+  image: string;
+}
+
+interface Variant {
+  id: number;
+  price: number;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  images: ProductImage[];
+  variants: Variant[];
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: {
+    data: Product[];
+  };
+}
 
 const Home = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchNewestProducts = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/product");
+      const json: ApiResponse = await res.json();
+
+      if (json.success) {
+        setProducts(json.data.data); // lấy danh sách sản phẩm
+      }
+
+      setLoading(false);
+    } catch (err) {
+      console.error("Lỗi:", err);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNewestProducts();
+  }, []);
+
+  if (loading) return <p>Đang tải sản phẩm...</p>;
   return (
     <>
       {/* MAIN HEADER */}
@@ -84,73 +133,68 @@ const Home = () => {
       <section className="product-category">
         <div className="container">
           <h2>Sản phẩm mới nhất</h2>
+
           <div className="product-list mt-5">
-            <div className="product-card">
-              <img src={lap1} alt="Macbook" />
-              <h3>MacBook Pro M1 13inch 16GB 256GB</h3>
-              <p className="price-new">16.490.000đ</p>
-              <div className="price-info">
-                <span className="price-old">23.990.000đ</span>
-                <span className="discount">Giảm 31%</span>
-              </div>
-              <p className="compare">
-                <i className="fa-regular fa-heart"></i> Yêu Thích
-              </p>
-              <button type="submit" className="btn-success">
-                <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-              </button>
-            </div>
+            {products.map((item) => {
+              const firstImage =
+                item.images?.[0]?.image
+                  ? `http://localhost:8000/storage/${item.images[0].image}`
+                  : "/images/default.jpg";
 
-            <div className="product-card">
-              <img src={mac1} alt="Macbook" />
-              <h3>Macbook Air M2 13inch 16GB 256GB | New</h3>
-              <p className="price-new">19.290.000đ</p>
-              <div className="price-info">
-                <span className="price-old">25.490.000đ</span>
-                <span className="discount">Giảm 24%</span>
-              </div>
-              <p className="compare">
-                <i className="fa-regular fa-heart"></i> Yêu Thích
-              </p>
-              <button type="submit" className="btn-success">
-                <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-              </button>
-            </div>
+              const price =
+                item.variants?.[0]?.price
+                  ? item.variants[0].price.toLocaleString() + "đ"
+                  : "Liên hệ";
 
-            <div className="product-card">
-              <img src={laptop1} alt="Macbook" />
-              <h3>
-                Lenovo LOQ 2024 15IAX9E | Core i5-12450HX 12GB 512GB RTX 2050
-                4GB 15.6'' FHD 144Hz (New)
-              </h3>
-              <p className="price-new">16.790.000</p>
-              <div className="price-info">
-                <span className="price-old">20.490.000 </span>
-                <span className="discount">Giảm 8%</span>
-              </div>
-              <p className="compare">
-                <i className="fa-regular fa-heart"></i> Yêu Thích
-              </p>
-              <button type="submit" className="btn-success">
-                <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-              </button>
-            </div>
+              return (
+                <div className="product-card" key={item.id}>
+                  <img src={firstImage} alt={item.name} />
 
-            <div className="product-card">
-              <img src={mac3} alt="Macbook" />
-              <h3>Macbook Pro 14inch M1 Pro 16GB 1TB | New</h3>
-              <p className="price-new">29.990.000đ</p>
-              <div className="price-info">
-                <span className="price-old">42.990.000đ</span>
-                <span className="discount">Giảm 30%</span>
-              </div>
-              <p className="compare">
-                <i className="fa-regular fa-heart"></i> Yêu Thích
-              </p>
-              <button type="submit" className="btn-success">
-                <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-              </button>
-            </div>
+                  <h3>{item.name}</h3>
+                  <p className="price-new">{price}</p>
+
+                  <button
+                    className="btn-success"
+                    onClick={async () => {
+                      try {
+                        // Lấy variant đầu tiên của sản phẩm (bạn có thể thêm chọn biến thể khác)
+                        const variantId = item.variants?.[0]?.id;
+                        if (!variantId) {
+                          alert("Sản phẩm chưa có biến thể!");
+                          return;
+                        }
+
+                        // Gửi request lên API thêm vào giỏ
+                        const res = await fetch("http://localhost:8000/api/cart/add", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            variant_id: variantId,
+                            quantity: 1, // mặc định 1 cái
+                          }),
+                        });
+
+                        const data = await res.json();
+
+                        if (data.success) {
+                          alert("Đã thêm sản phẩm vào giỏ hàng!");
+                          console.log("Cart summary:", data.data.cart_summary);
+                        } else {
+                          alert("Lỗi: " + data.message);
+                        }
+                      } catch (err) {
+                        console.error(err);
+                        alert("Có lỗi xảy ra khi thêm vào giỏ hàng.");
+                      }
+                    }}
+                  >
+                    <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -32,7 +32,7 @@ class CartService
         $cart = $this->getCart();
 
         // Lấy thông tin biến thể sản phẩm
-        $variant = Product_variants::with('product', 'rams', 'storage')->find($variantId);
+        $variant = Product_variants::with('product', 'ram', 'storage')->find($variantId);
 
         if (!$variant) {
             throw new \Exception('Product variant not found');
@@ -174,4 +174,5 @@ class CartService
         $variantId = (string)$variantId;
         return $this->getCart()->get($variantId, [])['quantity'] ?? 0;
     }
+
 }
