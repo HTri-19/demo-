@@ -1,0 +1,169 @@
+/* src/assets/css/SearchProduct.css
+   Styles for SearchProduct dropdown & items
+   Works with .search-box from your main app.css
+*/
+
+.search-result-box {
+  position: absolute;
+  top: calc(100% + 8px); /* ngay dưới search box */
+  left: 0;
+  right: 0;
+  max-width: 900px;    /* chỉnh nếu cần */
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 10px;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Header trong dropdown (gợi ý & đề xuất) */
+.search-result-box .suggest-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f1f1f1;
+  margin: 0 0 8px 0;
+}
+
+/* Container cho phần "gợi ý văn bản" (nếu có) */
+.search-suggestions {
+  padding: 8px 6px;
+  border-bottom: 1px solid #f6f6f6;
+}
+.search-suggestions a {
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+.search-suggestions a:hover {
+  background: #fafafa;
+}
+
+/* Danh sách sản phẩm gợi ý */
+.search-suggest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 0;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Mỗi item trong list */
+.search-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: #222;
+  transition: background 0.12s ease;
+  border-radius: 8px;
+}
+
+.search-item:hover {
+  background: #fbfdff;
+}
+
+/* avatar / thumbnail */
+.search-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  background: #f6f6f6;
+  border: 1px solid #f0f0f0;
+}
+
+/* thông tin sản phẩm */
+.search-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.search-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.2;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+
+/* giá hiển thị nổi bật */
+.search-price {
+  color: #d0021b; /* đỏ đặc */
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* giá cũ (nếu có) */
+.search-old-price {
+  color: #999;
+  text-decoration: line-through;
+  font-size: 12px;
+}
+
+/* small badge (ví dụ: giảm giá) */
+.search-badge {
+  background: #e8f7ff;
+  color: #0278c6;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* empty state */
+.search-empty {
+  padding: 16px;
+  color: #666;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+  .search-result-box {
+    left: 8px;
+    right: 8px;
+    max-width: calc(100% - 16px);
+  }
+  .search-img {
+    width: 54px;
+    height: 54px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-result-box {
+    top: calc(100% + 6px);
+    padding: 8px;
+  }
+  .search-item {
+    padding: 8px;
+  }
+  .search-img {
+    width: 48px;
+    height: 48px;
+  }
+}
