@@ -56,7 +56,7 @@ class CartController extends Controller
 
         try {
             // Lấy thông tin biến thể sản phẩm
-            $variant = Product_variants::with('product', 'rams', 'storage')->find($validated['variant_id']);
+            $variant = Product_variants::with('product', 'ram', 'storage')->find($validated['variant_id']);
 
             if (!$variant) {
                 return response()->json([

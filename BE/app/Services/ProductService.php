@@ -14,12 +14,22 @@ class ProductService
     }
     public function getAll()
     {
-        return Product::with('category')->get();
+        return Product::with([
+        'category',
+        'images',
+        'variants.ram',
+        'variants.storage'
+    ])->get();
     }
 
     public function getById($id)
     {
-        return Product::with('category')->find($id);
+        return Product::with([
+        'category',
+        'images',
+        'variants.ram',
+        'variants.storage'
+    ])->find($id);
     }
 
     public function create(array $data)
@@ -42,4 +52,5 @@ class ProductService
     public function search(array $filters){
         return $this->productRepo->search($filters);
     }
+
 }
