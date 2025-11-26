@@ -16,6 +16,9 @@ class AdminOrderController extends Controller
     {
         //
     }
+    public function khanetr(){
+        return 'có kha ở đây';
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -60,5 +63,8 @@ class AdminOrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function khane(){
+        return 'khacommit';
     }
 }
