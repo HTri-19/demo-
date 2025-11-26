@@ -56,6 +56,7 @@ class SearchController extends Controller
     {
         //
     }
+    //
 
     /**
      * Remove the specified resource from storage.
