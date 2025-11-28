@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "../assets/SearchProduct.css";
-import { IProduct } from "../interface/IProduct";
+import type { IProduct } from "../interface/IProduct";
 
 const SearchProduct = ({ query }: { query: string }) => {
   const [products, setProducts] = useState<IProduct[]>([]);

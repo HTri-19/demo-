@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 // Import Assets (từ Register/Login)
 import Frame65 from "../assets/images/Frame 65.png";
@@ -14,11 +14,10 @@ import youtube from "../assets/images/youtub.png";
 // import google from "../assets/images/google.png"; // Không cần trong form này
 
 // Thay thế bằng endpoint thực tế từ Backend của bạn
-const API_FORGOT_PASSWORD_URL = 'http://127.0.0.1:8000/api/send-mail';
-
+const API_FORGOT_PASSWORD_URL = "http://127.0.0.1:8000/api/send-mail";
 
 const ForgotPassword: React.FC = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,12 +35,14 @@ const ForgotPassword: React.FC = () => {
     try {
       const response = await axios.post(API_FORGOT_PASSWORD_URL, {
         email,
-        message: "Link đặt lại mật khẩu"
+        message: "Link đặt lại mật khẩu",
       });
-      setMessage(response.data.message || 'Một liên kết đặt lại mật khẩu đã được gửi đến email của bạn.');
-
+      setMessage(
+        response.data.message ||
+          "Một liên kết đặt lại mật khẩu đã được gửi đến email của bạn."
+      );
     } catch (err: any) {
-      let errorMessage = 'Gửi yêu cầu thất bại. Vui lòng thử lại.';
+      let errorMessage = "Gửi yêu cầu thất bại. Vui lòng thử lại.";
 
       if (axios.isAxiosError(err) && err.response) {
         errorMessage = err.response.data.message || errorMessage;
@@ -59,7 +60,7 @@ const ForgotPassword: React.FC = () => {
       <header className="main-header">
         <div className="container header-inner">
           <Link to="/" className="logo">
-            <img src={Frame65} alt="T&T Center" />
+            <img src={Frame65} alt="TechStoreCenter" />
           </Link>
           <nav className="header-nav">
             <a href="category" className="menu-btn">
@@ -99,12 +100,24 @@ const ForgotPassword: React.FC = () => {
 
             {/* HIỂN THỊ THÔNG BÁO THÀNH CÔNG/LỖI */}
             {message && (
-              <p style={{ color: 'green', fontSize: '0.9em', marginBottom: '15px' }}>
+              <p
+                style={{
+                  color: "green",
+                  fontSize: "0.9em",
+                  marginBottom: "15px",
+                }}
+              >
                 {message}
               </p>
             )}
             {error && (
-              <p style={{ color: 'red', fontSize: '0.9em', marginBottom: '15px' }}>
+              <p
+                style={{
+                  color: "red",
+                  fontSize: "0.9em",
+                  marginBottom: "15px",
+                }}
+              >
                 {error}
               </p>
             )}
@@ -121,7 +134,7 @@ const ForgotPassword: React.FC = () => {
 
             {/* NÚT GỬI */}
             <button type="submit" className="btn-login" disabled={loading}>
-              {loading ? 'Đang xử lý...' : 'GỬI YÊU CẦU ĐẶT LẠI'}
+              {loading ? "Đang xử lý..." : "GỬI YÊU CẦU ĐẶT LẠI"}
             </button>
 
             <p className="signup-text">

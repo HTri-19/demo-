@@ -1,6 +1,7 @@
 import Frame65 from "../assets/images/Frame 65.png";
 import vanchuyen from "../assets/images/vanchuyen.png";
 import bocongthuong from "../assets/images/bocongthuong.png";
+import payment from "../assets/images/visa.png";
 import dmca from "../assets/images/dmca.png";
 import zalo from "../assets/images/zalo.png";
 import facebook from "../assets/images/facebook.png";
@@ -32,9 +33,36 @@ import fix from "../assets/images/fix.png";
 import macboo from "../assets/images/macboo-mdm.png";
 import hangapple from "../assets/images/hang-apple-refurbished-la-gi-co-nen-mua-hang-apple-refurbished-khong-1697107354.png";
 import { Link } from "react-router-dom";
-import SearchBox from "./SearchBox";
+import banner1 from "../assets/images/banner-1.png";
+import banner2 from "../assets/images/banner-2.png";
 
+import SearchBox from "./SearchBox";
+import { useCallback, useEffect, useState } from "react";
 const Home = () => {
+  // Banner Slider
+  const banners = [banner1, banner2, banner3];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Next slide
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % banners.length);
+  }, [banners.length]);
+
+  // Previous slide
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev === 0 ? banners.length - 1 : prev - 1));
+  }, [banners.length]);
+
+  // Auto slide
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [nextSlide]);
+
   return (
     <>
       {/* MAIN HEADER */}
@@ -46,21 +74,21 @@ const Home = () => {
             </div>
           </Link>
           <nav className="header-nav">
-            <Link to="/category">
-              <a href="#" className="menu-btn">
-                <i className="fa-solid fa-bars"></i> Danh mục
-              </a>
+            <Link to="/category" className="menu-btn">
+              <i className="fa-solid fa-bars"></i> Danh mục
             </Link>
+
             <a href="#" className="location-btn">
               <i className="fa-solid fa-location-dot"></i> Xem giá tại Hà Nội
             </a>
           </nav>
-
           {/* <div className="search-box">
-            <input type="text" placeholder="Nhập tên sản phẩm cần tìm..." />
-            <button>
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
+            <input
+              type="text"
+              placeholder="Nhập tên sản phẩm..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
           </div> */}
           <SearchBox />
           <div className="header-actions">
@@ -75,17 +103,63 @@ const Home = () => {
       </header>
 
       {/* BANNER */}
+      {/* <section className="banner">
+        <div className="container banner-slider">
+          <button className="slide-btn prev" onClick={prevSlide}>
+            ❮
+          </button>
+
+          <img
+            src={banners[currentIndex]}
+            alt="Banner"
+            className="banner-image"
+          />
+
+          <button className="slide-btn next" onClick={nextSlide}>
+            ❯
+          </button>
+        </div>
+      </section> */}
       <section className="banner">
+        <div className="container banner-slider">
+          <button className="slide-btn prev" onClick={prevSlide}>
+            ❮
+          </button>
+
+          <img
+            src={banners[currentIndex]}
+            alt="Banner"
+            className="banner-image"
+          />
+
+          <button className="slide-btn next" onClick={nextSlide}>
+            ❯
+          </button>
+        </div>
+
+        {/* Chấm điều hướng */}
+        <div className="dots">
+          {banners.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${currentIndex === index ? "active" : ""}`}
+              onClick={() => setCurrentIndex(index)}
+            ></span>
+          ))}
+        </div>
+      </section>
+
+      {/* <section className="banner">
         <div className="container">
           <img src={banner3} alt="Banner" />
         </div>
-      </section>
+      </section> */}
 
       {/* PRODUCT CATEGORY SECTION */}
       <section className="product-category">
         <div className="container">
           <h2>Sản phẩm mới nhất</h2>
-          <div className="product-list mt-5">
+          <div className="product-list">
             <div className="product-card">
               <img src={lap1} alt="Macbook" />
               <h3>MacBook Pro M1 13inch 16GB 256GB</h3>
@@ -254,7 +328,7 @@ const Home = () => {
           </div>
 
           <div className="see-more">
-            <button className="tab mt-5">Xem tất cả</button>
+            <button className="see-all">Xem tất cả</button>
           </div>
         </div>
       </section>
@@ -265,9 +339,6 @@ const Home = () => {
           <div className="category-header">
             <h2>Laptop cũ</h2>
             <div className="category-tabs">
-              <div className="tab active">Phụ Kiện Laptop</div>
-              <div className="tab">Thiết Bị Mạng</div>
-              <div className="tab">Phụ Kiện PC</div>
               <button className="see-all">Xem tất cả</button>
             </div>
           </div>
@@ -282,7 +353,7 @@ const Home = () => {
               <p className="price-new"> 12.490.000đ</p>
               <div className="price-info">
                 <span className="price-old">14.990.000đ</span>
-                <span className="discount"> GGiảm 17% </span>
+                <span className="discount"> Giảm 17% </span>
               </div>
               <button type="submit" className="btn-success">
                 <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
@@ -344,10 +415,6 @@ const Home = () => {
           <div className="category-header">
             <h2>Macbook</h2>
             <div className="category-tabs">
-              <div className="tab active">Macbook Pro</div>
-              <div className="tab">Macbook Air</div>
-              <div className="tab">Macbook Cũ</div>
-              <div className="tab">Mac Mini - iMac</div>
               <button className="see-all">Xem tất cả</button>
             </div>
           </div>
@@ -416,10 +483,6 @@ const Home = () => {
           <div className="category-header">
             <h2>Asusvivobook</h2>
             <div className="category-tabs">
-              <div className="tab active">Asusvivobook</div>
-              <div className="tab">Asusvivobook</div>
-              <div className="tab">Asusvivobook</div>
-              <div className="tab">Mac Mini - iMac</div>
               <button className="see-all">Xem tất cả</button>
             </div>
           </div>
@@ -493,7 +556,9 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <h3>Khuyến mãi</h3>
-            <a href="#">Xem tất cả</a>
+            <a href="#" className="see-all">
+              Xem tất cả
+            </a>
           </div>
 
           <div className="promo-banners">
@@ -514,7 +579,9 @@ const Home = () => {
         <div className="container">
           <div className="section-header">
             <h3>Tin tức</h3>
-            <a href="#">Xem tất cả</a>
+            <a href="#" className="see-all">
+              Xem tất cả
+            </a>
           </div>
 
           <div className="news-list">
@@ -608,7 +675,7 @@ const Home = () => {
           <div className="footer-column">
             <h3>Phương thức thanh toán</h3>
             <div className="payment-icons">
-              <img src="/images/visa.png" alt="Visa" />
+              <img src={payment} alt="Visa" />
             </div>
 
             <h3>Đơn vị vận chuyển</h3>

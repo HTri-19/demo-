@@ -8,11 +8,154 @@ import tiktok from "../assets/images/tiktok.png";
 import banner1 from "../assets/images/banner-1.png";
 // import banner2 from "../assets/images/banner-2.png";
 // import banner3 from "../assets/images/banner-3.png";
-import laptopdell from "../assets/images/dell-lapptop.png";
+// import laptopdell from "../assets/images/dell-lapptop.png";
 import youtube from "../assets/images/youtub.png";
-
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import type { IProduct } from "../interface/IProduct";
+import type { ICategory } from "../interface/ICategory";
+import type { IProductVariant } from "../interface/IProductVariant";
 const Category = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [priceFilter, setPriceFilter] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<string>("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productRes = await fetch("http://127.0.0.1:8000/api/product");
+        const rawProduct = await productRes.json();
+
+        const variantRes = await fetch(
+          "http://127.0.0.1:8000/api/product_variants"
+        );
+        const rawVariant = await variantRes.json();
+
+        // Tự động lấy field đúng (có thể là data hoặc không)
+        const productsArray = Array.isArray(rawProduct)
+          ? rawProduct
+          : rawProduct.data;
+        const variantsArray = Array.isArray(rawVariant)
+          ? rawVariant
+          : rawVariant.data;
+
+        if (!productsArray) {
+          console.error("❌ API PRODUCT không có dữ liệu hợp lệ:", rawProduct);
+          return;
+        }
+        if (!variantsArray) {
+          console.error("❌ API VARIANT không có dữ liệu hợp lệ:", rawVariant);
+          return;
+        }
+
+        // Merge variant vào product
+        const merged = productsArray.map((p: IProduct) => {
+          const variants = variantsArray.filter(
+            (v: IProductVariant) => v.product_id === p.id
+          );
+          return { ...p, variants };
+        });
+
+        // Tạo danh mục
+        const uniqueCategories: ICategory[] = [];
+        merged.forEach((p: IProduct & { variants: IProductVariant[] }) => {
+          if (
+            p.category &&
+            !uniqueCategories.some((c) => c.id === p.category.id)
+          ) {
+            uniqueCategories.push(p.category);
+          }
+        });
+
+        setCategories(uniqueCategories);
+        setProducts(merged);
+        setFilteredProducts(merged);
+      } catch (error) {
+        console.error("❌ Lỗi API:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // FILTER BY CATEGORY
+  const handleFilterCategory = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+
+    if (categoryName === "") {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const filtered = products.filter(
+      (p) =>
+        p.category &&
+        p.category.name.toLowerCase() === categoryName.toLowerCase()
+    );
+
+    setFilteredProducts(filtered);
+  };
+  // FILTER BY PRICE
+  const handleFilterPrice = (value: string) => {
+    setPriceFilter(value);
+
+    let list = [...products];
+
+    if (value === "under10") {
+      list = list.filter(
+        (p) => p.variants?.[0] && Number(p.variants[0].price_new) < 10000000
+      );
+    }
+
+    if (value === "10to20") {
+      list = list.filter(
+        (p) =>
+          p.variants?.[0] &&
+          Number(p.variants[0].price_new) >= 10000000 &&
+          Number(p.variants[0].price_new) <= 80000000
+      );
+    }
+
+    setFilteredProducts(list);
+  };
+
+  // SORT BY PRICE
+  const handleSortPrice = (value: string) => {
+    setSortOrder(value);
+
+    const list = [...filteredProducts];
+
+    if (value === "asc") {
+      list.sort(
+        (a, b) =>
+          Number(a.variants?.[0]?.price_new || 0) -
+          Number(b.variants?.[0]?.price_new || 0)
+      );
+    }
+
+    if (value === "desc") {
+      list.sort(
+        (a, b) =>
+          Number(b.variants?.[0]?.price_new || 0) -
+          Number(a.variants?.[0]?.price_new || 0)
+      );
+    }
+
+    setFilteredProducts(list);
+  };
+  const getProductImage = (item: IProduct) => {
+    // Nếu API có ảnh
+    if (item.images && item.images !== "") {
+      return `http://127.0.0.1:8000/api/product_images/${item.images}`;
+    }
+
+    // Nếu sản phẩm không có ảnh → dùng ảnh mặc định
+    return "/images/no-image.png";
+  };
+
   return (
     <>
       <header className="main-header">
@@ -68,68 +211,97 @@ const Category = () => {
       <div>
         {/* Bộ lọc */}
         <div className="filters">
-          <select>
-            <option>Nhu cầu</option>
-            <option>Văn phòng</option>
-            <option>Gaming</option>
-          </select>
-          <select>
-            <option>Mức giá</option>
-            <option>Dưới 10 triệu</option>
-            <option>10 - 20 triệu</option>
-          </select>
-          <select>
-            <option>Sắp xếp theo</option>
-            <option>Giá tăng dần</option>
-            <option>Giá giảm dần</option>
-          </select>
-        </div>
+          {/* FILTER CATEGORY */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => handleFilterCategory(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option value="">Tất cả danh mục</option>
 
-        {/* Danh mục */}
-        <div className="categories">
-          <button>Văn phòng</button>
-          <button>Gaming</button>
-          <button>Đồ họa - Kỹ thuật</button>
-          <button>Cao cấp - sang trọng</button>
-          <button>Mỏng nhẹ</button>
-          <button>Sinh viên</button>
-          <button>Cảm ứng</button>
-          <button>Pin trâu</button>
+            {categories.map((cate) => (
+              <option key={cate.id} value={cate.name}>
+                {cate.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={priceFilter}
+            onChange={(e) => handleFilterPrice(e.target.value)}
+          >
+            <option value="">Mức giá</option>
+            <option value="under10">Dưới 10 triệu</option>
+            <option value="10to20">10 - 20 triệu trở lên</option>
+          </select>
+          <select
+            value={sortOrder}
+            onChange={(e) => handleSortPrice(e.target.value)}
+          >
+            <option value="">Sắp xếp theo</option>
+            <option value="asc">Giá tăng dần</option>
+            <option value="desc">Giá giảm dần</option>
+          </select>
         </div>
 
         {/* Danh sách sản phẩm */}
         <section className="product-category">
           <div className="container">
             <div className="product-list">
-              {Array(8)
-                .fill(0)
-                .map((_, index) => (
-                  <div className="product-card" key={index}>
-                    <img src={laptopdell} alt="MacBook Pro" />
-                    <h3>MacBook Pro M1 13inch 16GB 256GB</h3>
-                    <p className="price-new">16.490.000đ</p>
-                    <div className="price-info">
-                      <span className="price-old">23.990.000đ</span>
-                      <span className="discount">Giảm 31%</span>
-                    </div>
-                    <p className="compare">
-                      <i className="fa-regular fa-heart"></i> Yêu Thích
-                    </p>
-                    <button type="button" className="btn-success">
-                      <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ
-                      hàng
-                    </button>
-                  </div>
-                ))}
+              {filteredProducts.map((item) => (
+                <div className="product-card" key={item.id}>
+                  <img src={getProductImage(item)} alt={item.name} />
+
+                  <h3>{item.name}</h3>
+                  {item.variants && item.variants.length > 0 ? (
+                    <>
+                      <p className="price-new">
+                        {Number(item.variants[0].price_new).toLocaleString(
+                          "vi-VN"
+                        )}{" "}
+                        đ
+                      </p>
+
+                      <div className="price-info">
+                        <span className="price-old">
+                          {Number(item.variants[0].price_old).toLocaleString(
+                            "vi-VN"
+                          )}{" "}
+                          đ
+                        </span>
+
+                        <span className="discount">
+                          Giảm{" "}
+                          {Math.round(
+                            (1 -
+                              Number(item.variants[0].price_new) /
+                                Number(item.variants[0].price_old)) *
+                              100
+                          )}
+                          %
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <p>Không có giá</p>
+                  )}
+                  <p className="compare">
+                    <i className="fa-regular fa-heart"></i> Yêu thích
+                  </p>
+
+                  <button type="button" className="btn-success">
+                    <i className="fa-solid fa-cart-shopping"></i> Thêm vào giỏ
+                    hàng
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </section>
-
-        {/* Nút xem thêm */}
         <div className="cart-buttons" style={{ marginBottom: "20px" }}>
           <button className="btn btn-primary">Xem thêm 200 sản phẩm</button>
         </div>
       </div>
+
       {/* footer */}
       <footer className="footer">
         <div className="footer-top">
