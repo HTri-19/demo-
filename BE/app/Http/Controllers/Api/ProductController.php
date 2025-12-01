@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
-
+use App\Models\Product;
 class ProductController extends Controller
 {
     protected $productService;
@@ -16,11 +16,16 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(): JsonResponse
-    {
-        $products = $this->productService->getAll();
-        return response()->json($products);
-    }
+    public function index()
+{
+    $products = Product::with(['images', 'variants'])->paginate(12);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Lấy danh sách sản phẩm thành công',
+        'data' => $products
+    ]);
+}
 
     public function show($id): JsonResponse
     {

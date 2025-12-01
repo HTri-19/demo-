@@ -110,4 +110,8 @@ class ProductVariantController extends Controller
         $variant = Product_variants::where('sku', $sku)->firstOrFail();
         return response()->json($variant);
     }
+    public function keywordkha(){
+        return "kha có gì hết";
+    }
 }
+//
