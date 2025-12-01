@@ -1,2 +1,0 @@
-# demo-
-khong rot mon
