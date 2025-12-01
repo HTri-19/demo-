@@ -159,7 +159,7 @@ const Home = () => {
       <section className="product-category">
         <div className="container">
           <h2>Sản phẩm mới nhất</h2>
-          <div className="product-list">
+          <div className="product-list mt-5">
             <div className="product-card">
               <img src={lap1} alt="Macbook" />
               <h3>MacBook Pro M1 13inch 16GB 256GB</h3>
