@@ -1,0 +1,225 @@
+/* ======================== */
+/*        PAGE HEADER       */
+/* ======================== */
+
+.page-header {
+ display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.page-header h2 {
+  font-size: 24px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* ======================== */
+/*        BUTTON STYLE      */
+/* ======================== */
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: #e5e7eb;
+  transition: 0.2s ease;
+}
+
+.btn:hover {
+  background: #d1d5db;
+}
+
+.btn.primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #2563eb;
+}
+
+/* ======================== */
+/*        FILTER BOX        */
+/* ======================== */
+
+.filter-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.filter-box a {
+    margin-left: auto;
+
+}
+.filter-input,
+.filter-select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  background: white;
+  font-size: 14px;
+}
+
+.filter-input {
+  width: 260px;
+}
+
+/* đẩy nút thêm sản phẩm sang phải */
+.add-product-btn {
+ padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #4c8ffb;
+  color: white;
+}
+.add-product-btn:hover {
+  background-color: #3a73d9;
+}
+/* ======================== */
+/*         TABLE BOX        */
+/* ======================== */
+
+.table-box {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px #e5e7eb;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.product-table td {
+  padding: 15px 12px;
+  font-size: 15px;
+  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.product-img {
+  width: 55px;
+  height: 55px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* ======================== */
+/*       STATUS BADGE       */
+/* ======================== */
+
+.status {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.in-stock {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.out-stock {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ======================== */
+/*     ACTION BUTTONS       */
+/* ======================== */
+
+.action-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: 0.2s ease;
+}
+
+.action-btn.edit {
+  background: #bfdbfe;
+  color: #1d4ed8;
+}
+
+.action-btn.edit:hover {
+  background: #93c5fd;
+}
+
+.action-btn.delete {
+  background: #fecaca;
+  color: #b91c1c;
+}
+
+.action-btn.delete:hover {
+  background: #fca5a5;
+}
+
+/* ======================== */
+/*        PAGINATION        */
+/* ======================== */
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.page-btn {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  cursor: pointer;
+  background: white;
+  transition: 0.2s ease;
+}
+
+.page-btn:hover {
+  background: #f3f4f6;
+}
+
+.page-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-message,
+.empty-state {
+  text-align: center;
+  padding: 24px 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.error-banner {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
